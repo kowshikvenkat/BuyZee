@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {app,createUserDocument} from './firebase';
-import { getAuth, RecaptchaVerifier ,signInWithPhoneNumber,createUserWithEmailAndPassword,sendEmailVerification,updateEmail} from "firebase/auth";
+import { getAuth, RecaptchaVerifier ,signInWithPhoneNumber,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendEmailVerification,updateEmail} from "firebase/auth";
 import {getFirestore,getDocs,where,query,addDoc,collection,doc} from 'firebase/firestore';
 import { useNavigate,useLocation } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
@@ -109,32 +109,29 @@ else if(location.state.loc==='home'){
 navigate('/',{state:{data:cartdatas}})
 }
    }
-
 } catch (e) {
   console.error("Error adding document: ", e);
 }
 }
-  function verificationCode(event){
+  function verificationCode(){
+    
     window.confirmationResult.confirm(mobileotp).then((result) => {
       if(emailotp==userdata.current){
+        console.log('emailotp-matched')
   const user  = createUserWithEmailAndPassword(auth,email,'buyzee').then(()=>{
-  
-createUserDocument(firstname,lastname,address,email,mobile);
-
+    console.log('authenticate-success')
+createUserDocument(firstname,lastname,address,email,mobile).then(()=>{
+  console.log('firestore-success')
+})
   }).catch((err)=>{
-    console.log(err)
+    console.log(err,'creatinguserdoc-failed')
   })
 }
 }).catch((error) => {
   alert('invalid OTP')
+  console.log(error,'wrong otp')
 });
-
-
-
   }
-
-  
- 
       return(
         <div className='d-flex flex-column align-items-center'>
    <div className="d-flex justify-content-center w-100">

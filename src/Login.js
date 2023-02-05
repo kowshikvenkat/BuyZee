@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {app,createUserDocument,login} from './firebase';
-import { getAuth, RecaptchaVerifier ,signInWithPhoneNumber,createUserWithEmailAndPassword,sendEmailVerification,updateEmail} from "firebase/auth";
+import { getAuth, RecaptchaVerifier ,signInWithPhoneNumber,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendEmailVerification,updateEmail} from "firebase/auth";
 import {getFirestore,getDocs,where,query,addDoc,collection,doc} from 'firebase/firestore';
 import { useNavigate,useLocation } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
@@ -107,26 +107,22 @@ querySnap.forEach((doc) => {
          
            }else if(emailsent==true){
             if(otp.current==emailotp){
-                const user  = createUserWithEmailAndPassword(auth,email,'buyzee').then(()=>{
+                const user  = signInWithEmailAndPassword(auth,email,'buyzee').then(()=>{
                     sessionStorage.setItem('email',email);
                      
                     if(location.state.loc!=='home'){
                     navigate('/billing',{state:{data:cartdatas}})
                     }else if(location.state.loc=='home'){
                            navigate('/',{state:{data:cartdatas}})
-
                     }
   }).catch((err)=>{
     console.log(err)
         seterror( "User already logged In !")
-    
-
   })
             }else if(otp.current!==emailotp){
                 alert('INVALID OTP ! Refresh page and try again !')
             }
            }
-
   }
   function sendmobileotp(event){
     event.preventDefault()

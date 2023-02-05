@@ -105,8 +105,6 @@ const s=new Date()
  )
 },[cartdata.length>0])
 function orderList(coll){
- 
- 
 return(
   <div className='d-flex flex-column'>
  <div className='d-flex flex-column '>
@@ -141,7 +139,7 @@ return(
             {cartdata.map((k)=>{
           if(k['_id']==id){
             return(
-              <> {Number(k['createdAt'].slice(0,1))+1}  </>)}})}
+              <> {Number(k['createdAt'].slice(0,1))+1}</>)}})}
             &nbsp;{
               ['January','February','March','April','May','June','July','August','September','October','November','December'][new Date().getMonth()]
             } &nbsp;10 AM
